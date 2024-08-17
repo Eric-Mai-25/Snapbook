@@ -4,22 +4,36 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isDarkMode = false;
+
+  void _toggleDarkMode(bool value) {
+    setState(() {
+      _isDarkMode = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Snapbook',
+      title: 'Instagram Clone',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue[900]!,
           primary: Colors.blue[900]!,
           secondary: Colors.cyanAccent,
           surface: Colors.grey[200]!,
+          brightness: _isDarkMode ? Brightness.dark : Brightness.light,
         ),
-        useMaterial3: true, // Optional, for a modern UI look
-        scaffoldBackgroundColor: Colors.grey[200],
+        useMaterial3: true, 
+        scaffoldBackgroundColor: _isDarkMode ? Colors.grey[850] : Colors.grey[200],
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           selectedItemColor: Colors.cyanAccent,
           unselectedItemColor: Colors.blue[300],
@@ -34,15 +48,26 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MyHomePage(title: 'SnapBook'),
+      home: MyHomePage(
+        title: 'Instagram Clone',
+        toggleDarkMode: _toggleDarkMode,
+        isDarkMode: _isDarkMode,
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({
+    super.key,
+    required this.title,
+    required this.toggleDarkMode,
+    required this.isDarkMode,
+  });
 
   final String title;
+  final Function(bool) toggleDarkMode;
+  final bool isDarkMode;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -65,11 +90,93 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _onMenuItemSelected(String item) {
+    Navigator.pop(context); // Close the drawer
+    if (item == 'Preferences') {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Preferences'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Dark Mode'),
+                Switch(
+                  value: widget.isDarkMode,
+                  onChanged: widget.toggleDarkMode,
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Settings',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Profile Settings'),
+              onTap: () {
+                _onMenuItemSelected('Profile Settings');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Preferences'),
+              onTap: () {
+                _onMenuItemSelected('Preferences');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () {
+                _onMenuItemSelected('Logout');
+              },
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
