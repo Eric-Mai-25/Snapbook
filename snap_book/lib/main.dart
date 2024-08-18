@@ -29,10 +29,10 @@ class _MyAppState extends State<MyApp> {
           seedColor: Colors.blue[900]!,
           primary: Colors.blue[900]!,
           secondary: Colors.cyanAccent,
-          surface: Colors.grey[200]!,
+          background: Colors.grey[200]!,
           brightness: _isDarkMode ? Brightness.dark : Brightness.light,
         ),
-        useMaterial3: true, 
+        useMaterial3: true,
         scaffoldBackgroundColor: _isDarkMode ? Colors.grey[850] : Colors.grey[200],
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           selectedItemColor: Colors.cyanAccent,
@@ -127,6 +127,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        // Explicitly set the leading property to null to remove the left icon
+        leading: null,
         actions: [
           Builder(
             builder: (context) => IconButton(
