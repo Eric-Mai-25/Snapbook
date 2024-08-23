@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'add_content.dart';
 
 void main() {
   runApp(const MyApp());
@@ -79,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const List<Widget> _widgetOptions = <Widget>[
     Text('Home Feed', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
     Text('Search Feed', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-    Text('Add Content', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+    AddContent(), // Use the AddContent widget here
     Text('Follow Feed', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
     Text('My Profile', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
   ];
