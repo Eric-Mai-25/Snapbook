@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       home: MyHomePage(
-        title: 'Instagram Clone',
+        title: 'SnapBook',
         toggleDarkMode: _toggleDarkMode,
         isDarkMode: _isDarkMode,
       ),
