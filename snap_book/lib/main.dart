@@ -127,18 +127,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        // Explicitly set the leading property to null to remove the left icon
-        leading: null,
-        actions: [
-          Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            ),
-          ),
-        ],
+        // Keep the left drawer icon
+        actions: [], // Remove the right settings icon
       ),
       drawer: Drawer(
         child: ListView(
