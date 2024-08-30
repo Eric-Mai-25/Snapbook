@@ -7,9 +7,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Feed'),
-      ),
       body: ListView(
         padding: const EdgeInsets.all(8.0),
         children: [
@@ -46,9 +43,9 @@ class HomeScreen extends StatelessWidget {
               child: PageView(
                 controller: _pageController,
                 children: [
-                  _buildImageCard('https://via.placeholder.com/300', 'Slide 1 Title', 'Slide 1 Description'),
-                  _buildImageCard('https://via.placeholder.com/300', 'Slide 2 Title', 'Slide 2 Description'),
-                  _buildImageCard('https://via.placeholder.com/300', 'Slide 3 Title', 'Slide 3 Description'),
+                  _buildImageCard('https://source.unsplash.com/random/300x200?nature', 'Slide 1 Title', 'Slide 1 Description'),
+                  _buildImageCard('https://source.unsplash.com/random/300x200?city', 'Slide 2 Title', 'Slide 2 Description'),
+                  _buildImageCard('https://source.unsplash.com/random/300x200?technology', 'Slide 3 Title', 'Slide 3 Description'),
                 ],
               ),
             ),
