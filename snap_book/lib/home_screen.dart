@@ -33,11 +33,10 @@ class HomeScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
-                // Image Carousel
+                // Image Carousel (One image per slide)
                 SizedBox(
-                  height: 200,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
+                  height: 300, // Adjust height as needed
+                  child: PageView.builder(
                     itemCount: 5, // Number of images in each collection
                     itemBuilder: (context, imageIndex) {
                       return Padding(
@@ -46,8 +45,8 @@ class HomeScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.asset(
                             'lib/pictures/example.png', // Use the example image
-                            width: 150,
-                            height: 200,
+                            width: double.infinity,
+                            height: 300,
                             fit: BoxFit.cover,
                           ),
                         ),
