@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_content.dart';
 import 'home_screen.dart';
+import 'search_feed.dart';
 
 void main() {
   runApp(const MyApp());
@@ -80,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    Text('Search Feed', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+    SearchFeed(),
     AddContent(), // Use the AddContent widget here
     Text('Follow Feed', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
     Text('My Profile', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
