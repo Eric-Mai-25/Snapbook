@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -21,6 +22,8 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildImageCollectionCard(String title, String description) {
+    final PageController _pageController = PageController();
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Card(
@@ -41,6 +44,7 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: 200,
               child: PageView(
+                controller: _pageController,
                 children: [
                   _buildImageCard('https://via.placeholder.com/300', 'Slide 1 Title', 'Slide 1 Description'),
                   _buildImageCard('https://via.placeholder.com/300', 'Slide 2 Title', 'Slide 2 Description'),
@@ -48,6 +52,20 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 8),
+            Center(
+              child: SmoothPageIndicator(
+                controller: _pageController, // PageController
+                count: 3, // Number of slides
+                effect: ExpandingDotsEffect(
+                  dotHeight: 8,
+                  dotWidth: 8,
+                  activeDotColor: Colors.blue[900]!,
+                  dotColor: Colors.grey,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
           ],
         ),
       ),
