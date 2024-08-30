@@ -9,7 +9,7 @@ class AddContent extends StatefulWidget {
 }
 
 class _AddContentState extends State<AddContent> {
-  late CameraController _controller;
+  CameraController? _controller;
   late Future<void> _initializeControllerFuture;
   bool _isCameraInitialized = false;
 
@@ -20,26 +20,38 @@ class _AddContentState extends State<AddContent> {
   }
 
   Future<void> _initializeCamera() async {
-    final cameras = await availableCameras();
-    final firstCamera = cameras.first;
+    try {
+      final cameras = await availableCameras();
 
-    _controller = CameraController(
-      firstCamera,
-      ResolutionPreset.high,
-    );
+      if (cameras.isNotEmpty) {
+        final firstCamera = cameras.first;
 
-    _initializeControllerFuture = _controller.initialize();
+        _controller = CameraController(
+          firstCamera,
+          ResolutionPreset.high,
+        );
 
-    if (!mounted) return;
+        _initializeControllerFuture = _controller!.initialize();
 
-    setState(() {
-      _isCameraInitialized = true;
-    });
+        setState(() {
+          _isCameraInitialized = true;
+        });
+      } else {
+        // Handle the case where no cameras are found
+        print('No cameras available');
+        setState(() {
+          _isCameraInitialized = false;
+        });
+      }
+    } catch (e) {
+      print('Error initializing camera: $e');
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    // Dispose the camera controller only if it was initialized
+    _controller?.dispose();
     super.dispose();
   }
 
@@ -54,19 +66,24 @@ class _AddContentState extends State<AddContent> {
               future: _initializeControllerFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return CameraPreview(_controller);
+                  return CameraPreview(_controller!);
                 } else {
                   return const Center(child: CircularProgressIndicator());
                 }
               },
             )
-          : const Center(child: CircularProgressIndicator()),
+          : const Center(
+              child: Text(
+                'No camera available',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
       floatingActionButton: _isCameraInitialized
           ? FloatingActionButton(
               onPressed: () async {
                 try {
                   await _initializeControllerFuture;
-                  final image = await _controller.takePicture();
+                  final image = await _controller!.takePicture();
 
                   if (!mounted) return;
 
